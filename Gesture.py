@@ -1,7 +1,7 @@
 import cv2
 import time
 import numpy as np
-
+import Track as htm
 
 widcam, htcam = 640, 480
 
@@ -15,8 +15,15 @@ cap.set(4, htcam)
 # 3 and 4 are  internally set for widcam and htcam
 
 ptime = 0
+
+detector = htm.handDetector(detectionCon=0.7)  # detection Confidence
+
+
 while True:
+
     success, img = cap.read()
+    img = detector.findHands(img)
+    lmList = detector.findPosition(img, draw=False)
 
     ctime = time.time()
     fps = 1/(ctime-ptime)
